@@ -7,6 +7,8 @@ import java.util.Random;
  */
 
 public class Character {
+
+
     private int healthPoints;
     private int attackPower;
     private String characterName;
@@ -14,17 +16,26 @@ public class Character {
     private String Weapon;
     private int weaponPower;
     private Random rand = new Random();
+    private int weaponUse = 0;
+
+
 
 
     public Character(int attackPower, String characterName, String characterType) {
+
         this.healthPoints = 1000;
         this.attackPower = attackPower;
         this.characterName = characterName;
         this.characterType = characterType;
+        this.Weapon = "n";
     }
 
     public void setHealthPoints(int healthPoints) {
         this.healthPoints = healthPoints;
+    }
+
+    public String getCharacterType() {
+        return characterType;
     }
 
     public String getCharacterName() {
@@ -59,17 +70,43 @@ public class Character {
 
 
     public void attackEnemy(Character character) {
-        if (character.dodgeEnemy()) {
-            System.out.println(character.getCharacterName() + " has dodged the attack!");
+        int newHealth = character.getHealthPoints() - getAttackPower();
 
-        } else if (character.counterAttack()) {
-            setHealthPoints(this.getHealthPoints() - character.attackPower);
-            System.out.println(character.getCharacterName()+" has countered the attack!");
-        } else {
-            character.setHealthPoints(character.getHealthPoints() - this.attackPower);
-            System.out.printf("%s has taken %s damage %n Enemy health is now %s%n", character.getCharacterName(), getAttackPower(), character.getHealthPoints());
+        if(!getWeapon().toLowerCase().equals("n") ){
+            if(!((character.getHealthPoints()-getWeaponPower()) <= 0)) {
+                weaponUse++;
+                System.out.printf("%s is attacking %s the %s with %s. %n", getCharacterName(),character.getCharacterName(), character.getCharacterType(), getWeapon());
+                character.setHealthPoints(character.getHealthPoints() - getWeaponPower());
+                System.out.printf("%s has taken %s damage \nhealth is now %s%n%n", character.getCharacterName(), getWeaponPower(), character.getHealthPoints());
+                if (weaponUse == 2) {
+                    setWeapon("n");
+                }
+            }else{
 
+                System.out.printf("%s has taken %s damage \nhealth is now %s%n%n", character.getCharacterName(),character.getHealthPoints(), character.getHealthPoints());
+                character.setHealthPoints(0);
+            }
+        }else{
+            if(!(newHealth <= 0)) {
+                System.out.printf("\n%s is attacking %s the %s\n",getCharacterName(),character.getCharacterName(),character.getCharacterType());
+            if (character.dodgeEnemy()) {
+                System.out.println(character.getCharacterName() + " has dodged the attack!");
+
+            } else if (character.counterAttack()) {
+                setHealthPoints(this.getHealthPoints() - character.attackPower);
+                System.out.println(character.getCharacterName()+" has countered the attack!");
+                System.out.printf("%s has health of %s now%n",getCharacterName(),getHealthPoints());
+            } else {
+                    character.setHealthPoints(character.getHealthPoints() - this.attackPower);
+                    System.out.printf("%s has taken %s damage \nhealth is now %s%n", character.getCharacterName(), getAttackPower(), character.getHealthPoints());
+                }
+            }else{
+
+                System.out.printf("%s has taken %s damage \nhealth is now %s%n", character.getCharacterName(),character.getHealthPoints(), character.getHealthPoints());
+                character.setHealthPoints(0);
+            }
         }
+
     }
     // deduct health of arg character
     // this does not need to return anything but you could print something out

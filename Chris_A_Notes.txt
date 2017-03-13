@@ -1,0 +1,4 @@
+This project was difficult for me. I didn't feel like I had much to contribute other
+than a few concepts and ideas and some of the Arena class structure. Gavin wrote most of the Character class and
+Josh directed things and made sure that everything worked. Josh also added the Scanner class over the weekend.
+Josh and Gavin were great to work with and did an excellent job.
